@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 export const StyleHeader = styled.header`
 	background-color: ${({ theme }) => theme.colors.bgBase};
@@ -27,39 +28,49 @@ export const StyleHeaderContainer = styled.div`
 		margin-right: 22px;
 		display: flex;
 	}
+`
+export const StyleNavLink = styled(Link)`
+	display: flex;
 
-	div > a {
-		display: flex;
+	align-items: center;
+	justify-content: center;
 
-		align-items: center;
-		justify-content: center;
+	box-sizing: border-box;
 
-		box-sizing: border-box;
+	background-color: transparent;
 
-		background-color: transparent;
+	border: none;
 
-		border: none;
+	font-size: inherit;
+	line-height: inherit;
+	color: inherit;
 
-		font-size: inherit;
-		line-height: inherit;
-		color: inherit;
+	cursor: pointer;
 
-		cursor: pointer;
+	width: 110px;
+	height: 50px;
 
-		width: 110px;
-		height: 50px;
+	@media screen and (max-width: 375px) {
+		height: 30px;
+		width: 80px;
+		font-size: 14px;
+	}
 
-		@media screen and (max-width: 375px) {
-			height: 30px;
-			width: 80px;
-			font-size: 14px;
-		}
+	&:first-child {
+		margin-right: 5px;
+	}
 
-		&:hover {
-			color: ${({ theme }) => theme.colors.success};
+	&:hover {
+		color: ${({ theme }) => theme.colors.success};
 
-			border: 1px solid ${({ theme }) => theme.colors.success};
-			border-radius: 5px;
-		}
+		border: 1px solid ${({ theme }) => theme.colors.success};
+		border-radius: 5px;
+	}
+
+	&.active {
+		color: ${({ theme }) => theme.colors.success};
+
+		border: 1px solid ${({ theme }) => theme.colors.success};
+		border-radius: 5px;
 	}
 `

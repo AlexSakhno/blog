@@ -28,7 +28,7 @@ export const fetchArticles = (page: number) => {
 						currentPage: page,
 					},
 				})
-			}, 1000)
+			}, 500)
 		} catch (e) {
 			dispatch({
 				type: ArticleActionTypes.FETCH_ARTICLES_ERROR,
