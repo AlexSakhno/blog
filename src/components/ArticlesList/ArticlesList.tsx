@@ -23,8 +23,9 @@ const service = new Service()
 // IMPORTS \\
 
 const ArticlesList: FC = () => {
-	const { data, loading, error, currentPage, perPage, totalPage } =
-		useTypeSelector(state => state.articles)
+	const { data, loading, error, currentPage, perPage } = useTypeSelector(
+		state => state.articles
+	)
 
 	const pagesCount = Math.ceil(data.articlesCount / perPage)
 	const pages: any[] = []

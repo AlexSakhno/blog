@@ -1,11 +1,7 @@
 import styled from 'styled-components'
 
-export const StyleArticleBlock = styled.div`
-	display: flex;
-	justify-content: space-between;
-
+export const StyleArticleBlock = styled.article`
 	max-width: 100%;
-	max-height: 140px;
 
 	box-sizing: border-box;
 
@@ -20,56 +16,57 @@ export const StyleArticleBlock = styled.div`
 	filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.15));
 `
 
+export const StyleArticleHeader = styled.header`
+	display: flex;
+	justify-content: space-between;
+`
+
 export const StyleArticleContent = styled.div`
 	display: block;
 	box-sizing: border-box;
 
-	header {
+	div {
 		display: flex;
 		justify-content: space-between;
 
 		align-items: center;
-	}
 
-	a {
-		font-size: 20px;
-		line-height: 28px;
-		color: #1890ff;
-		margin: 0;
-		max-height: 30px;
-		overflow: hidden;
-	}
+		h1 {
+			font-size: 20px;
+			line-height: 28px;
+			color: #1890ff;
+			margin: 0;
+			max-height: 30px;
+			overflow: hidden;
+		}
 
-	button {
-		display: flex;
-		align-items: center;
-		justify-content: center;
+		button {
+			display: flex;
+			align-items: center;
+			justify-content: center;
 
-		margin-left: 13px;
-		position: relative;
+			margin-left: 13px;
+			position: relative;
 
-		width: 50px;
-		height: 15px;
-		border: none;
-		background-color: transparent;
-
-		cursor: pointer;
-
-		font-size: 14px;
-		line-height: 22px;
-		color: rgba(0, 0, 0, 0.75);
-
-		&::before {
-			position: absolute;
-			content: '';
 			width: 16px;
-			height: 15px;
-			background: url('./image/unLike.svg') no-repeat;
-			left: 0;
+			height: 16px;
+			border: none;
+			background-color: transparent;
+
+			cursor: pointer;
+
+			font-size: 14px;
+			line-height: 22px;
+			color: rgba(0, 0, 0, 0.75);
+		}
+
+		span {
+			border: none;
+			font-size: 14px;
 		}
 	}
 
-	bu span {
+	span {
 		border: 1px solid rgba(0, 0, 0, 0.5);
 		border-radius: 2px;
 
@@ -83,6 +80,7 @@ export const StyleArticleContent = styled.div`
 	}
 
 	p {
+		margin-top: 20px;
 		font-size: 12px;
 		line-height: 22px;
 		color: rgba(0, 0, 0, 0.75);

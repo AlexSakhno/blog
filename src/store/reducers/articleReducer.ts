@@ -2,16 +2,26 @@ import {
 	ArticleAction,
 	ArticleActionTypes,
 	ArticleState,
-} from '../../types/articles'
+} from '../../types/article'
 
 const initalState: ArticleState = {
-	data: {
-		articles: [],
-		articlesCount: 0,
+	article: {
+		slug: '',
+		title: '',
+		description: '',
+		body: '',
+		tagList: [],
+		createdAt: new Date(),
+		updatedAt: new Date(),
+		favorited: false,
+		favoritesCount: 0,
+		author: {
+			username: '',
+			bio: '',
+			image: '',
+			following: false,
+		},
 	},
-	totalPage: 0,
-	currentPage: 1,
-	perPage: 10,
 	loading: false,
 	error: null,
 }
@@ -21,31 +31,24 @@ export const articleReducer = (
 	action: ArticleAction
 ): ArticleState => {
 	switch (action.type) {
-		case ArticleActionTypes.FETCH_ARTICLES:
+		case ArticleActionTypes.FETCH_ARTICLE:
 			return {
 				...state,
 				loading: true,
 			}
-		case ArticleActionTypes.FETCH_ARTICLES_SUCCESS:
+		case ArticleActionTypes.FETCH_ARTICLE_SUCCESS:
 			return {
 				...state,
-				loading: false,
-				currentPage: action.payload.currentPage,
-				data: {
-					articles: action.payload.articles,
-					articlesCount: action.payload.articlesCount,
+				article: {
+					...action.payload.article,
 				},
+				loading: false,
 			}
-		case ArticleActionTypes.FETCH_ARTICLES_ERROR:
+		case ArticleActionTypes.FETCH_ARTICLE_ERROR:
 			return {
 				...state,
 				loading: false,
 				error: action.payload,
-			}
-		case ArticleActionTypes.SET_CURRENT_PAGE:
-			return {
-				...state,
-				currentPage: action.payload,
 			}
 		default:
 			return state

@@ -1,4 +1,4 @@
-export interface ArticleState {
+export interface ArticlesState {
 	data: {
 		articles: any[]
 		articlesCount: number
@@ -10,7 +10,7 @@ export interface ArticleState {
 	error?: null | string
 }
 
-export enum ArticleActionTypes {
+export enum ArticlesActionTypes {
 	FETCH_ARTICLES = 'FETCH_ARTICLES',
 	FETCH_ARTICLES_SUCCESS = 'FETCH_ARTICLES_SUCCESS',
 	FETCH_ARTICLES_ERROR = 'FETCH_ARTICLES_ERROR',
@@ -18,16 +18,16 @@ export enum ArticleActionTypes {
 }
 
 interface SetCurrentPageAction {
-	type: ArticleActionTypes.SET_CURRENT_PAGE
+	type: ArticlesActionTypes.SET_CURRENT_PAGE
 	payload: number
 }
 
 interface FetchArticlesAction {
-	type: ArticleActionTypes.FETCH_ARTICLES
+	type: ArticlesActionTypes.FETCH_ARTICLES
 }
 
 interface FetchArticlesSuccessAction {
-	type: ArticleActionTypes.FETCH_ARTICLES_SUCCESS
+	type: ArticlesActionTypes.FETCH_ARTICLES_SUCCESS
 	payload: {
 		articles: any[]
 		articlesCount: number
@@ -36,11 +36,11 @@ interface FetchArticlesSuccessAction {
 }
 
 interface FetchArticlesErrorAction {
-	type: ArticleActionTypes.FETCH_ARTICLES_ERROR
+	type: ArticlesActionTypes.FETCH_ARTICLES_ERROR
 	payload: string
 }
 
-export type ArticleAction =
+export type ArticlesAction =
 	| FetchArticlesAction
 	| FetchArticlesSuccessAction
 	| FetchArticlesErrorAction

@@ -14,6 +14,7 @@ import { Layout } from '../Layout/Layout'
 import ArticlesList from '../ArticlesList/ArticlesList'
 import SignInForm from '../SignInForm/SignInForm'
 import SignUpForm from '../SignUpForm/SignUpForm'
+import ArticleCard from '../ArticleCard/ArticleCard'
 
 function App() {
 	return (
@@ -23,6 +24,8 @@ function App() {
 				<Routes>
 					<Route path='/' element={<Layout />}>
 						<Route index element={<ArticlesList />} />
+						<Route path='articles' element={<ArticlesList />} />
+						<Route path='articles/:slug' element={<ArticleCard />} />
 						<Route path='signin' element={<SignInForm />} />
 						<Route path='signup' element={<SignUpForm />} />
 						<Route path='*' element={<h2>Страница не найдена</h2>} />

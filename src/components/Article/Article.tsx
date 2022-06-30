@@ -13,14 +13,17 @@ import {
 	StyleArticleContent,
 } from '../../styles/components/article'
 
+// router
+import { Link } from 'react-router-dom'
+
 interface ArticleItem {
 	title: string
 	slug: string
 	description: string
 	body: string
 	tagList: any[]
-	createdAt: Date
-	updatedAt: Date
+	createdAt?: Date
+	updatedAt?: Date
 	favorited: boolean
 	favoritesCount: number
 	author: {
@@ -32,20 +35,27 @@ interface ArticleItem {
 }
 
 const Article: FC<ArticleItem> = props => {
-	const { title, tagList, description, author, createdAt, favoritesCount } =
-		props
+	const {
+		title,
+		tagList,
+		description,
+		author,
+		createdAt,
+		favoritesCount,
+		slug,
+	} = props
 
 	const tags = tagList.map(tag => {
 		if (tag !== '' && tag !== null) return <span key={uuidv4()}>{tag}</span>
 	})
 
-	const date = format(new Date(createdAt), 'MMM d, y')
+	const date = format(new Date(), 'MMM d, y')
 
 	return (
 		<StyleArticleBlock>
 			<StyleArticleContent>
 				<header>
-					<h2>{title}</h2>
+					<Link to={`/articles/${slug}`}>{title}</Link>
 					<button>{favoritesCount}</button>
 				</header>
 				{tags}
