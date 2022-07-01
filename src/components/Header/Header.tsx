@@ -18,14 +18,14 @@ const Header = () => {
 				</span>
 				<div>
 					<StyleNavLink
-						className={pathname === '/signin' ? 'active' : ''}
-						to='/signin'
+						className={pathname === '/sign-in' ? 'active' : ''}
+						to='/sign-in'
 					>
 						SignIn
 					</StyleNavLink>
 					<StyleNavLink
-						className={pathname === '/signup' ? 'active' : ''}
-						to='/signup'
+						className={pathname === '/sign-up' ? 'active' : ''}
+						to='/sign-up'
 					>
 						SignUp
 					</StyleNavLink>

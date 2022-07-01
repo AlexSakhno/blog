@@ -26,8 +26,8 @@ function App() {
 						<Route index element={<ArticlesList />} />
 						<Route path='articles' element={<ArticlesList />} />
 						<Route path='articles/:slug' element={<ArticleCard />} />
-						<Route path='signin' element={<SignInForm />} />
-						<Route path='signup' element={<SignUpForm />} />
+						<Route path='sign-in' element={<SignInForm />} />
+						<Route path='sign-up' element={<SignUpForm />} />
 						<Route path='*' element={<h2>Страница не найдена</h2>} />
 					</Route>
 				</Routes>
