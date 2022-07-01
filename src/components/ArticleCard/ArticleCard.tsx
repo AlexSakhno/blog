@@ -1,6 +1,9 @@
 import { FC, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
+// работа со временем
+import { format } from 'date-fns'
+
 // Markdown
 import ReactMarkdown from 'react-markdown'
 
@@ -42,6 +45,8 @@ const ArticleCard: FC = () => {
 		if (tag !== '' && tag !== null) return <span key={uuidv4()}>{tag}</span>
 	})
 
+	const date = format(new Date(article.createdAt), 'MMM d, y')
+
 	return (
 		<>
 			<StyleArticleBlock>
@@ -49,14 +54,16 @@ const ArticleCard: FC = () => {
 					<StyleArticleContent>
 						<div>
 							<h1>{article.title}</h1>
-							<button>
-								{!article.favorited ? (
-									<img src='../image/unLike.svg' />
-								) : (
-									<img src='../image/like.svg' />
-								)}
-							</button>
-							<span>{article.favoritesCount}</span>
+							<div>
+								<button>
+									{!article.favorited ? (
+										<img src='../image/unLike.svg' />
+									) : (
+										<img src='../image/like.svg' />
+									)}
+								</button>
+								<span>{article.favoritesCount}</span>
+							</div>
 						</div>
 						{tags}
 						<p>{article.description}</p>
@@ -64,7 +71,7 @@ const ArticleCard: FC = () => {
 					<StyleArticleAuthor>
 						<div>
 							<span>{article.author.username}</span>
-							{/* <span>{article.createdAt}</span> */}
+							<span>{date}</span>
 						</div>
 						<div>
 							<img

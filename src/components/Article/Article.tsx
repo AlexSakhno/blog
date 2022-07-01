@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 // style components
 import {
+	StyleArticleHeader,
 	StyleArticleAuthor,
 	StyleArticleBlock,
 	StyleArticleContent,
@@ -22,8 +23,8 @@ interface ArticleItem {
 	description: string
 	body: string
 	tagList: any[]
-	createdAt?: Date
-	updatedAt?: Date
+	createdAt: Date
+	updatedAt: Date
 	favorited: boolean
 	favoritesCount: number
 	author: {
@@ -41,6 +42,7 @@ const Article: FC<ArticleItem> = props => {
 		description,
 		author,
 		createdAt,
+		favorited,
 		favoritesCount,
 		slug,
 	} = props
@@ -49,27 +51,38 @@ const Article: FC<ArticleItem> = props => {
 		if (tag !== '' && tag !== null) return <span key={uuidv4()}>{tag}</span>
 	})
 
-	const date = format(new Date(), 'MMM d, y')
+	const date = format(new Date(createdAt), 'MMM d, y')
 
 	return (
 		<StyleArticleBlock>
-			<StyleArticleContent>
-				<header>
-					<Link to={`/articles/${slug}`}>{title}</Link>
-					<button>{favoritesCount}</button>
-				</header>
-				{tags}
-				<p>{description}</p>
-			</StyleArticleContent>
-			<StyleArticleAuthor>
-				<div>
-					<span>{author.username}</span>
-					<span>{date}</span>
-				</div>
-				<div>
-					<img src={author.image} alt={`Avatar ${author.username}`} />
-				</div>
-			</StyleArticleAuthor>
+			<StyleArticleHeader>
+				<StyleArticleContent>
+					<div>
+						<Link to={`/articles/${slug}`}>{title}</Link>
+						<div>
+							<button>
+								{!favorited ? (
+									<img src='../image/unLike.svg' />
+								) : (
+									<img src='../image/like.svg' />
+								)}
+							</button>
+							<span>{favoritesCount}</span>
+						</div>
+					</div>
+					{tags}
+					<p>{description}</p>
+				</StyleArticleContent>
+				<StyleArticleAuthor>
+					<div>
+						<span>{author.username}</span>
+						<span>{date}</span>
+					</div>
+					<div>
+						<img src={author.image} alt={`Avatar ${author.username}`} />
+					</div>
+				</StyleArticleAuthor>
+			</StyleArticleHeader>
 		</StyleArticleBlock>
 	)
 }

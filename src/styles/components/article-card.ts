@@ -25,20 +25,28 @@ export const StyleArticleContent = styled.div`
 	display: block;
 	box-sizing: border-box;
 
+	p {
+		margin-top: 20px;
+		font-size: 12px;
+		line-height: 22px;
+		color: rgba(0, 0, 0, 0.75);
+		max-height: 25px;
+		overflow: hidden;
+	}
+
+	h1 {
+		font-size: 20px;
+		line-height: 28px;
+		color: #1890ff;
+		margin: 0;
+		max-height: 30px;
+		overflow: hidden;
+	}
+
 	div {
 		display: flex;
-		justify-content: space-between;
 
 		align-items: center;
-
-		h1 {
-			font-size: 20px;
-			line-height: 28px;
-			color: #1890ff;
-			margin: 0;
-			max-height: 30px;
-			overflow: hidden;
-		}
 
 		button {
 			display: flex;
@@ -77,15 +85,6 @@ export const StyleArticleContent = styled.div`
 		margin-right: 3px;
 
 		padding: 2px 3px;
-	}
-
-	p {
-		margin-top: 20px;
-		font-size: 12px;
-		line-height: 22px;
-		color: rgba(0, 0, 0, 0.75);
-		max-height: 25px;
-		overflow: hidden;
 	}
 `
 
