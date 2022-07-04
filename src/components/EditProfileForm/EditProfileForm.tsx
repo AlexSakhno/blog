@@ -1,18 +1,12 @@
 import React, { FC } from 'react'
 
-// route
-import { Link } from 'react-router-dom'
-
 //style component
-import { StyleForm } from '../../styles/components/sign-up'
+import { StyleForm } from '../../styles/components/edit-profile'
 
 // form / validation form
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-
-// antD
-import { Divider } from 'antd'
 
 // types
 import { IFormInputs } from '../../types/elements'
@@ -30,20 +24,11 @@ const schema = yup
 			.required()
 			.min(6, 'Password length should be at least 6 characters')
 			.max(40, 'Password cannot exceed more than 40 characters'),
-		repassword: yup
-			.string()
-			.required('Confirm Password is required')
-			.min(6, 'Password length should be at least 6 characters')
-			.max(40, 'Password cannot exceed more than 40 characters')
-			.oneOf([yup.ref('password')], 'Passwords do not match'),
-		police: yup
-			.bool()
-			.required()
-			.oneOf([true], 'It is required to accept the agreement'),
+		avatar: yup.string().url(),
 	})
 	.required()
 
-const SignUpForm: FC = () => {
+const EditProfileForm: FC = () => {
 	const {
 		register,
 		handleSubmit,
@@ -55,7 +40,7 @@ const SignUpForm: FC = () => {
 
 	return (
 		<StyleForm>
-			<h1>Create new account</h1>
+			<h1>Edit profile</h1>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<label htmlFor='username'>Username</label>
 				<input id='username' {...register('username')} placeholder='username' />
@@ -63,44 +48,35 @@ const SignUpForm: FC = () => {
 				<label htmlFor='email'>Email address</label>
 				<input id='email' {...register('email')} placeholder='Email address' />
 				<p>{errors.email?.message}</p>
-				<label htmlFor='password'>Password</label>
+				<label htmlFor='password'>New password</label>
 				<input
 					type='password'
 					id='password'
 					{...register('password')}
-					placeholder='Password'
+					placeholder='New password'
 				/>
 				<p>{errors.password?.message}</p>
-				<label htmlFor='repassword'>Repeat Password</label>
+				<label htmlFor='avatar'>Avatar image (url)</label>
 				<input
-					type='password'
-					id='repassword'
-					{...register('repassword')}
-					placeholder='Password'
+					id='avatar'
+					{...register('avatar', {
+						required: {
+							value: true,
+							message: 'Url is required',
+						},
+						pattern: {
+							value:
+								/(http|https|ftp):\/\/(.+?)\/(([a-zA-Z0-9_ \-%\.]*)\.(jpg|png|jpeg))/,
+							message: 'Please enter a valid url',
+						},
+					})}
+					placeholder='Avatar image'
 				/>
-				<p>{errors.repassword?.message}</p>
-
-				<Divider />
-
-				<label htmlFor='checkbox'>
-					<input
-						id='checkbox'
-						type='checkbox'
-						defaultChecked={true}
-						{...register('police')}
-					/>
-					I agree to the processing of my personal information
-				</label>
-				<p>{errors.police?.message}</p>
-				<input type='submit' value='Create' />
+				<p>{errors.avatar?.message}</p>
+				<input type='submit' value='Save' />
 			</form>
-			<div>
-				<span>
-					Don’t have an account? <Link to='/sign-in'>Sign In</Link>.
-				</span>
-			</div>
 		</StyleForm>
 	)
 }
 
-export default SignUpForm
+export default EditProfileForm

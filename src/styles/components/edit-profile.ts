@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const StyleForm = styled.section`
 	max-width: 384px;
-	height: 374px;
+	max-height: 100%;
 
 	margin: auto;
 	margin-top: 60px;
@@ -69,6 +69,7 @@ export const StyleForm = styled.section`
 
 			color: #ffffff;
 
+			margin-top: 21px;
 			cursor: pointer;
 
 			&:hover {
@@ -76,20 +77,8 @@ export const StyleForm = styled.section`
 				transition: transform 0.3s;
 			}
 		}
-
 		p {
 			color: red;
 		}
-	}
-
-	div {
-		font-size: 12px;
-		line-height: 20px;
-		width: 100%;
-
-		text-align: center;
-
-		color: #8c8c8c;
-		margin-top: 8px;
 	}
 `

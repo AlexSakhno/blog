@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const StyleForm = styled.section`
 	max-width: 384px;
-	height: 374px;
+	max-height: 100%;
 
 	margin: auto;
 	margin-top: 60px;
@@ -77,8 +77,36 @@ export const StyleForm = styled.section`
 			}
 		}
 
+		input[type='checkbox'] {
+			width: 12px;
+			height: 12px;
+			left: calc(50% - 12px / 2 - 0.22px);
+			top: calc(50% - 12px / 2 - 0.23px);
+
+			background: #ffffff;
+
+			border: 0.3px solid #ffffff;
+			margin-right: 8px;
+		}
+
+		div.ant-divider-horizontal {
+			margin-bottom: 15px;
+		}
+
 		p {
 			color: red;
+		}
+
+		label[for='checkbox'] {
+			font-size: 14px;
+			line-height: 22px;
+
+			font-weight: 400;
+
+			text-align: start;
+			color: #595959;
+
+			margin: 0;
 		}
 	}
 

@@ -15,6 +15,7 @@ import ArticlesList from '../ArticlesList/ArticlesList'
 import SignInForm from '../SignInForm/SignInForm'
 import SignUpForm from '../SignUpForm/SignUpForm'
 import ArticleCard from '../ArticleCard/ArticleCard'
+import EditProfileForm from '../EditProfileForm/EditProfileForm'
 
 function App() {
 	return (
@@ -28,6 +29,7 @@ function App() {
 						<Route path='articles/:slug' element={<ArticleCard />} />
 						<Route path='sign-in' element={<SignInForm />} />
 						<Route path='sign-up' element={<SignUpForm />} />
+						<Route path='edit-profile' element={<EditProfileForm />} />
 						<Route path='*' element={<h2>Страница не найдена</h2>} />
 					</Route>
 				</Routes>
