@@ -1,10 +1,15 @@
 import React, { FC } from 'react'
 
 // route
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
+
+// redux
+import { useTypeSelector } from '../../hooks/useTypeSelector'
+import { useActions } from '../../hooks/useActions'
 
 //style component
 import { StyleForm } from '../../styles/components/sign-up'
+import { StyleSpiner } from '../../styles/spiner'
 
 // form / validation form
 import { useForm } from 'react-hook-form'
@@ -44,6 +49,10 @@ const schema = yup
 	.required()
 
 const SignUpForm: FC = () => {
+	const { auth, loading, error } = useTypeSelector(state => state.user)
+
+	const { fetchRegUser, fetchClearState } = useActions()
+
 	const {
 		register,
 		handleSubmit,
@@ -51,7 +60,19 @@ const SignUpForm: FC = () => {
 	} = useForm<IFormInputs>({
 		resolver: yupResolver(schema),
 	})
-	const onSubmit = (data: IFormInputs) => console.log(data)
+
+	const onSubmit = (data: IFormInputs) => {
+		fetchClearState()
+		fetchRegUser(data)
+	}
+
+	if (loading) {
+		return <StyleSpiner size='large' tip='Загрузка страницы...' />
+	}
+
+	if (auth) {
+		return <Navigate replace to='/' />
+	}
 
 	return (
 		<StyleForm>
@@ -60,9 +81,12 @@ const SignUpForm: FC = () => {
 				<label htmlFor='username'>Username</label>
 				<input id='username' {...register('username')} placeholder='username' />
 				<p>{errors.username?.message}</p>
+				<p>{error?.username ? 'username is already in use' : ''}</p>
 				<label htmlFor='email'>Email address</label>
 				<input id='email' {...register('email')} placeholder='Email address' />
 				<p>{errors.email?.message}</p>
+				<p>{error?.email ? 'email address is already in use' : ''}</p>
+
 				<label htmlFor='password'>Password</label>
 				<input
 					type='password'

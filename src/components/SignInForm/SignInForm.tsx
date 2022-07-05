@@ -1,26 +1,39 @@
 import React, { FC } from 'react'
 
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 
+// redux
+import { useTypeSelector } from '../../hooks/useTypeSelector'
+import { useActions } from '../../hooks/useActions'
+
+// style components
 import { StyleForm } from '../../styles/components/sign-in'
+import { StyleSpiner } from '../../styles/spiner'
 
+// form / validation form
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
-interface IFormInputs {
-	email: string
-	password: string
-}
+// types
+import { IFormInputs } from '../../types/elements'
 
 const schema = yup
 	.object({
 		email: yup.string().email().required(),
-		password: yup.string().required(),
+		password: yup
+			.string()
+			.required()
+			.min(6, 'Password length should be at least 6 characters')
+			.max(40, 'Password cannot exceed more than 40 characters'),
 	})
 	.required()
 
 const SignInForm: FC = () => {
+	const { auth, loading, error } = useTypeSelector(state => state.user)
+
+	const { fetchLoginUser, fetchClearState } = useActions()
+
 	const {
 		register,
 		handleSubmit,
@@ -28,7 +41,18 @@ const SignInForm: FC = () => {
 	} = useForm<IFormInputs>({
 		resolver: yupResolver(schema),
 	})
-	const onSubmit = (data: IFormInputs) => console.log(data)
+	const onSubmit = (data: IFormInputs) => {
+		fetchClearState()
+		fetchLoginUser(data)
+	}
+
+	if (loading) {
+		return <StyleSpiner size='large' tip='Проверка авторизации...' />
+	}
+
+	if (auth) {
+		return <Navigate replace to='/' />
+	}
 
 	return (
 		<StyleForm>
@@ -38,9 +62,15 @@ const SignInForm: FC = () => {
 				<input id='email' {...register('email')} placeholder='Email address' />
 				<p>{errors.email?.message}</p>
 				<label htmlFor='password'>Password</label>
-				<input id='password' {...register('password')} placeholder='Password' />
+				<input
+					type='password'
+					id='password'
+					{...register('password')}
+					placeholder='Password'
+				/>
 				<p>{errors.password?.message}</p>
 				<input type='submit' value='Login' />
+				<p>{error?.other ? 'invalid email address or password' : ''}</p>
 			</form>
 			<div>
 				<span>

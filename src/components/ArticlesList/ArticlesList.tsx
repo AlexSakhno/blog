@@ -1,5 +1,5 @@
 // IMPORTS
-import { FC, useCallback, useEffect } from 'react'
+import { FC, useEffect } from 'react'
 
 // uuid
 import { v4 as uuidv4 } from 'uuid'
