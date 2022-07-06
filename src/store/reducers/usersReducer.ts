@@ -3,6 +3,7 @@ import { UserAction, UserActionTypes, UsersState } from './../../types/users'
 const initalState: UsersState = {
 	user: {
 		username: '',
+		password: '',
 		email: '',
 		token: '',
 		bio: '',
@@ -39,6 +40,15 @@ export const userReducer = (
 				error: {
 					...action.payload,
 				},
+			}
+		case UserActionTypes.FETCH_USER_LOGOUT:
+			return {
+				...state,
+				user: {
+					...action.payload.user,
+				},
+				auth: false,
+				loading: false,
 			}
 		default:
 			return state

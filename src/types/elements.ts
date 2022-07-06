@@ -4,5 +4,6 @@ export interface IFormInputs {
 	password: string
 	repassword: string
 	police: boolean
+	bio: string
 	avatar: string
 }

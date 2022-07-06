@@ -17,6 +17,9 @@ import SignUpForm from '../SignUpForm/SignUpForm'
 import ArticleCard from '../ArticleCard/ArticleCard'
 import EditProfileForm from '../EditProfileForm/EditProfileForm'
 
+// hoc
+import { RequireAuth } from '../../hoc/RequireAuth'
+
 function App() {
 	return (
 		<ThemeProvider theme={baseTheme}>
@@ -29,7 +32,18 @@ function App() {
 						<Route path='articles/:slug' element={<ArticleCard />} />
 						<Route path='sign-in' element={<SignInForm />} />
 						<Route path='sign-up' element={<SignUpForm />} />
-						<Route path='edit-profile' element={<EditProfileForm />} />
+						<Route
+							path='edit-profile'
+							element={
+								<RequireAuth>
+									<EditProfileForm />
+								</RequireAuth>
+							}
+						/>
+						<Route
+							path='add-article'
+							// element={<RequireAuth>{<EditProfileForm />}</RequireAuth>}
+						/>
 						<Route path='*' element={<h2>Страница не найдена</h2>} />
 					</Route>
 				</Routes>

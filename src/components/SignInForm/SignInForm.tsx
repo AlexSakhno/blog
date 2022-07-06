@@ -41,17 +41,18 @@ const SignInForm: FC = () => {
 	} = useForm<IFormInputs>({
 		resolver: yupResolver(schema),
 	})
+
 	const onSubmit = (data: IFormInputs) => {
 		fetchClearState()
 		fetchLoginUser(data)
 	}
 
-	if (loading) {
-		return <StyleSpiner size='large' tip='Проверка авторизации...' />
+	if (auth) {
+		return <Navigate to='/' />
 	}
 
-	if (auth) {
-		return <Navigate replace to='/' />
+	if (loading) {
+		return <StyleSpiner size='large' tip='Проверка авторизации...' />
 	}
 
 	return (

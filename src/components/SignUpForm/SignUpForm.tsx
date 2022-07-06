@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 
 // route
-import { Link, Navigate } from 'react-router-dom'
+import { Link, Navigate, useLocation } from 'react-router-dom'
 
 // redux
 import { useTypeSelector } from '../../hooks/useTypeSelector'
@@ -51,6 +51,8 @@ const schema = yup
 const SignUpForm: FC = () => {
 	const { auth, loading, error } = useTypeSelector(state => state.user)
 
+	const location = useLocation()
+
 	const { fetchRegUser, fetchClearState } = useActions()
 
 	const {
@@ -64,6 +66,10 @@ const SignUpForm: FC = () => {
 	const onSubmit = (data: IFormInputs) => {
 		fetchClearState()
 		fetchRegUser(data)
+	}
+
+	if (auth) {
+		return <Navigate to='/' state={{ from: location }} />
 	}
 
 	if (loading) {

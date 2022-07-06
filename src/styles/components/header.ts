@@ -14,6 +14,8 @@ export const StyleHeaderContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	align-self: center;
+
 	height: 100%;
 
 	margin: 0 auto;
@@ -72,5 +74,12 @@ export const StyleNavLink = styled(Link)`
 
 		border: 1px solid ${({ theme }) => theme.colors.success};
 		border-radius: 5px;
+	}
+
+	&.add-article {
+		max-width: 112px;
+		height: 31px;
+		font-size: 14px;
+		line-height: 22px;
 	}
 `

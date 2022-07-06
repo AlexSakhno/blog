@@ -1,40 +1,31 @@
-import React from 'react'
+import { useEffect } from 'react'
 
 // redux
 import { useTypeSelector } from '../../hooks/useTypeSelector'
+import { useActions } from '../../hooks/useActions'
 
 // route
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 // styled components
 import {
 	StyleHeader,
 	StyleHeaderContainer,
-	StyleNavLink,
 } from '../../styles/components/header'
 
+// components
+import ReLogin from './Relogin'
+import Login from './Login'
+
 const Header = () => {
-	const { pathname } = useLocation()
 	const { auth } = useTypeSelector(state => state.user)
 
-	const header = () => {
-		return (
-			<div>
-				<StyleNavLink
-					className={pathname === '/sign-in' ? 'active' : ''}
-					to='/sign-in'
-				>
-					SignIn
-				</StyleNavLink>
-				<StyleNavLink
-					className={pathname === '/sign-up' ? 'active' : ''}
-					to='/sign-up'
-				>
-					SignUp
-				</StyleNavLink>
-			</div>
-		)
-	}
+	const { fetchGetUser } = useActions()
+
+	useEffect(() => {
+		const tokenString = localStorage.getItem('token')
+		if (tokenString) fetchGetUser(JSON.parse(tokenString))
+	}, [])
 
 	return (
 		<StyleHeader>
@@ -42,7 +33,7 @@ const Header = () => {
 				<span>
 					<Link to='/'>Realworld Blog</Link>
 				</span>
-				{!auth ? header() : ''}
+				{!auth ? <ReLogin /> : <Login />}
 			</StyleHeaderContainer>
 		</StyleHeader>
 	)
