@@ -49,6 +49,14 @@ function App() {
 								</RequireAuth>
 							}
 						/>
+						<Route
+							path='edit-article'
+							element={
+								<RequireAuth>
+									<AddArticle />
+								</RequireAuth>
+							}
+						/>
 						<Route path='*' element={<h2>Страница не найдена</h2>} />
 					</Route>
 				</Routes>

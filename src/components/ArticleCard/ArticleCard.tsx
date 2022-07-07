@@ -101,7 +101,9 @@ const ArticleCard: FC = () => {
 						{username === article.author.username ? (
 							<StyleArticleEdit>
 								<button onClick={() => delArticle()}>Delete</button>
-								<Link to='/edit-article'>Edit</Link>
+								<Link to='/edit-article' {...article}>
+									Edit
+								</Link>
 							</StyleArticleEdit>
 						) : (
 							''

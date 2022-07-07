@@ -18,20 +18,7 @@ import { IFormAddArticleInputs } from '../../types/elements'
 // redux
 import { useTypeSelector } from '../../hooks/useTypeSelector'
 import { useActions } from '../../hooks/useActions'
-import {
-	Navigate,
-	Route,
-	Router,
-	Routes,
-	useLocation,
-	useNavigate,
-} from 'react-router-dom'
-
-// hoc
-import { RequireAuth } from '../../hoc/RequireAuth'
-
-import ArticleCard from '../ArticleCard/ArticleCard'
-import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const schema = yup
 	.object({
@@ -58,9 +45,9 @@ const schema = yup
 	.required()
 
 const AddArticle: FC = () => {
-	const { loading } = useTypeSelector(state => state.article)
+	const { article, loading } = useTypeSelector(state => state.article)
 
-	const { fetchAddArticle, fetchArticle } = useActions()
+	const { fetchAddArticle, fetchUpdateArticle } = useActions()
 
 	const navigate = useNavigate()
 	const [state, setState] = useState('')
@@ -74,8 +61,15 @@ const AddArticle: FC = () => {
 	})
 
 	const onSubmit = async (data: IFormAddArticleInputs) => {
-		const resp = fetchAddArticle(data)
-		const res = await resp
+		let res
+		if (article.slug !== '') {
+			fetchUpdateArticle(data, article.slug)
+			res = article.slug
+		} else {
+			const resp = fetchAddArticle(data)
+			res = await resp
+		}
+
 		setState(String(res))
 	}
 
@@ -95,22 +89,38 @@ const AddArticle: FC = () => {
 			<h1>Create new Article</h1>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<label htmlFor='title'>Title</label>
-				<input id='title' {...register('title')} placeholder='Title' />
+				<input
+					id='title'
+					{...register('title')}
+					placeholder='Title'
+					defaultValue={article.title}
+				/>
 				<p>{errors.title?.message}</p>
 				<label htmlFor='description'>Short description</label>
 				<input
 					id='description'
 					{...register('description')}
 					placeholder='Short description'
+					defaultValue={article.description}
 				/>
 				<p>{errors.description?.message}</p>
 				<label htmlFor='text'>Text</label>
-				<textarea id='text' {...register('text')} placeholder='Text' />
+				<textarea
+					id='text'
+					{...register('text')}
+					placeholder='Text'
+					defaultValue={article.body}
+				/>
 				<p>{errors.text?.message}</p>
 				<label htmlFor='tags'>Tags</label>
 				<StyleTagsBlock>
 					<div>
-						<input placeholder='Tag' id='tag' {...register('tags')} />
+						<input
+							placeholder='Tag'
+							id='tag'
+							{...register('tags')}
+							defaultValue={article.tagList}
+						/>
 						<button type='button'>Delete</button>
 					</div>
 					<div>

@@ -6,6 +6,7 @@ import { ArticlesAction, ArticlesActionTypes } from './../../types/articles'
 
 import { ArticleAction, ArticleActionTypes } from './../../types/article'
 import { string } from 'yup'
+import { Action } from 'history'
 
 axios.defaults.baseURL = 'https://kata.academy:8021/api/'
 axios.defaults.headers.put['Content-Type'] = 'application/json'
@@ -107,7 +108,42 @@ export const fetchAddArticle = (data: any) => {
 	}
 }
 
-// Добавляем статью
+// Изменяем статью
+export const fetchUpdateArticle = (data: any, slug: string) => {
+	return async (dispatch: Dispatch<ArticleAction>) => {
+		try {
+			dispatch({ type: ArticleActionTypes.FETCH_ARTICLE })
+
+			const article = {
+				title: data.title,
+				description: data.description,
+				body: data.text,
+				tagList: [data.tags],
+			}
+
+			const response = await axios.put(`/articles/${slug}`, {
+				article: article,
+			})
+
+			setTimeout(async () => {
+				dispatch({
+					type: ArticleActionTypes.FETCH_ARTICLE_SUCCESS,
+					payload: response.data,
+				})
+			}, 500)
+
+			const res = await response.data.article.slug
+			return res
+		} catch (e) {
+			dispatch({
+				type: ArticleActionTypes.FETCH_ARTICLE_ERROR,
+				payload: 'Произошла ошибка обновления статьи.',
+			})
+		}
+	}
+}
+
+// Удаляем статью
 export const fetchDelArticle = (slug: string) => {
 	return async (dispatch: Dispatch<ArticleAction>) => {
 		try {
@@ -143,6 +179,34 @@ export const fetchDelArticle = (slug: string) => {
 			dispatch({
 				type: ArticleActionTypes.FETCH_ARTICLE_ERROR,
 				payload: 'Произошла ошибка удаления статьи.',
+			})
+		}
+	}
+}
+
+// Лайкаем статью
+export const fetchLikeArticle = (slug: any, favorited: boolean) => {
+	return async (dispatch: Dispatch<ArticleAction>) => {
+		try {
+			dispatch({ type: ArticleActionTypes.FETCH_ARTICLE })
+
+			const response = await axios(`/articles/${slug}/favorite`, {
+				method: !favorited ? 'post' : 'delete',
+			})
+
+			setTimeout(async () => {
+				dispatch({
+					type: ArticleActionTypes.FETCH_ARTICLE_SUCCESS,
+					payload: response.data,
+				})
+			}, 500)
+
+			const res = await response.data.article.slug
+			return res
+		} catch (e) {
+			dispatch({
+				type: ArticleActionTypes.FETCH_ARTICLE_ERROR,
+				payload: 'Произошла ошибка проставления лайка.',
 			})
 		}
 	}
