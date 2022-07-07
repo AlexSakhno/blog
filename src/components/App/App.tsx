@@ -16,6 +16,7 @@ import SignInForm from '../SignInForm/SignInForm'
 import SignUpForm from '../SignUpForm/SignUpForm'
 import ArticleCard from '../ArticleCard/ArticleCard'
 import EditProfileForm from '../EditProfileForm/EditProfileForm'
+import AddArticle from '../AddArticle/AddArticle'
 
 // hoc
 import { RequireAuth } from '../../hoc/RequireAuth'
@@ -42,7 +43,11 @@ function App() {
 						/>
 						<Route
 							path='add-article'
-							// element={<RequireAuth>{<EditProfileForm />}</RequireAuth>}
+							element={
+								<RequireAuth>
+									<AddArticle />
+								</RequireAuth>
+							}
 						/>
 						<Route path='*' element={<h2>Страница не найдена</h2>} />
 					</Route>

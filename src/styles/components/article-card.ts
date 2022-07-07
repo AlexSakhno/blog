@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import ReactMarkdown from 'react-markdown'
 
 export const StyleArticleBlock = styled.article`
 	max-width: 100%;
@@ -24,14 +25,17 @@ export const StyleArticleHeader = styled.header`
 export const StyleArticleContent = styled.div`
 	display: block;
 	box-sizing: border-box;
+	max-width: 75%;
 
 	p {
 		margin-top: 20px;
 		font-size: 12px;
 		line-height: 22px;
 		color: rgba(0, 0, 0, 0.75);
-		max-height: 25px;
+
 		overflow: hidden;
+
+		word-wrap: break-word;
 	}
 
 	h1 {
@@ -39,7 +43,6 @@ export const StyleArticleContent = styled.div`
 		line-height: 28px;
 		color: #1890ff;
 		margin: 0;
-		max-height: 30px;
 		overflow: hidden;
 	}
 
@@ -91,6 +94,8 @@ export const StyleArticleContent = styled.div`
 export const StyleArticleAuthor = styled.div`
 	display: flex;
 	justify-content: space-between;
+
+	margin-bottom: 30px;
 	div {
 		margin-right: 12px;
 
@@ -119,4 +124,44 @@ export const StyleArticleAuthor = styled.div`
 		width: 46px;
 		height: 46px;
 	}
+`
+
+export const StyleArticleEdit = styled.div`
+	button {
+		margin-right: 10px;
+		margin-bottom: 10px;
+		border: 1px solid #f5222d;
+		border-radius: 5px;
+
+		font-size: 14px;
+		line-height: 22px;
+
+		padding: 5px 15px;
+
+		background-color: white;
+
+		color: #f5222d;
+
+		cursor: pointer;
+	}
+
+	a {
+		border: 1px solid #52c41a;
+		border-radius: 5px;
+
+		font-size: 14px;
+		line-height: 22px;
+
+		color: #52c41a;
+
+		padding: 8px 15px;
+	}
+`
+export const StyleBlock = styled.div`
+	display: flex;
+	flex-direction: column;
+`
+export const StyleMarkdown = styled(ReactMarkdown)`
+	width: 100%;
+	word-wrap: break-word;
 `

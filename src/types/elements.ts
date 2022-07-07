@@ -7,3 +7,10 @@ export interface IFormInputs {
 	bio: string
 	avatar: string
 }
+
+export interface IFormAddArticleInputs {
+	title: string
+	description: string
+	text: string
+	tags: string
+}

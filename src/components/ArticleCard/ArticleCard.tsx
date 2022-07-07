@@ -1,11 +1,14 @@
 import { FC, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import {
+	Link,
+	Navigate,
+	useLocation,
+	useNavigate,
+	useParams,
+} from 'react-router-dom'
 
 // работа со временем
 import { format } from 'date-fns'
-
-// Markdown
-import ReactMarkdown from 'react-markdown'
 
 // style component
 import { StyleSpiner } from '../../styles/spiner'
@@ -14,6 +17,9 @@ import {
 	StyleArticleBlock,
 	StyleArticleAuthor,
 	StyleArticleContent,
+	StyleArticleEdit,
+	StyleBlock,
+	StyleMarkdown,
 } from '../../styles/components/article-card'
 
 // hooks
@@ -26,8 +32,10 @@ import { v4 as uuidv4 } from 'uuid'
 const ArticleCard: FC = () => {
 	const { article, loading, error } = useTypeSelector(state => state.article)
 
-	const { fetchArticle } = useActions()
+	const { fetchArticle, fetchDelArticle } = useActions()
 	const { slug } = useParams()
+
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		fetchArticle(slug)
@@ -46,6 +54,11 @@ const ArticleCard: FC = () => {
 	})
 
 	const date = format(new Date(article.createdAt), 'MMM d, y')
+
+	const delArticle = () => {
+		fetchDelArticle(article.slug)
+		navigate('/')
+	}
 
 	return (
 		<>
@@ -68,20 +81,26 @@ const ArticleCard: FC = () => {
 						{tags}
 						<p>{article.description}</p>
 					</StyleArticleContent>
-					<StyleArticleAuthor>
-						<div>
-							<span>{article.author.username}</span>
-							<span>{date}</span>
-						</div>
-						<div>
-							<img
-								src={article.author.image}
-								alt={`Avatar ${article.author.username}`}
-							/>
-						</div>
-					</StyleArticleAuthor>
+					<StyleBlock>
+						<StyleArticleAuthor>
+							<div>
+								<span>{article.author.username}</span>
+								<span>{date}</span>
+							</div>
+							<div>
+								<img
+									src={article.author.image}
+									alt={`Avatar ${article.author.username}`}
+								/>
+							</div>
+						</StyleArticleAuthor>
+						<StyleArticleEdit>
+							<button onClick={() => delArticle()}>Delete</button>
+							<Link to='/edit-article'>Edit</Link>
+						</StyleArticleEdit>
+					</StyleBlock>
 				</StyleArticleHeader>
-				<ReactMarkdown>{article.body}</ReactMarkdown>
+				<StyleMarkdown>{article.body}</StyleMarkdown>
 			</StyleArticleBlock>
 		</>
 	)
