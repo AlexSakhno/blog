@@ -67,7 +67,7 @@ const EditProfileForm: FC = () => {
 					id='username'
 					{...register('username')}
 					placeholder='username'
-					value={user.username}
+					defaultValue={user.username}
 				/>
 				<p>{errors.username?.message}</p>
 				<label htmlFor='email'>Email address</label>
@@ -75,7 +75,7 @@ const EditProfileForm: FC = () => {
 					id='email'
 					{...register('email')}
 					placeholder='Email address'
-					value={user.email}
+					defaultValue={user.email}
 				/>
 				<p>{errors.email?.message}</p>
 				<label htmlFor='password'>New password</label>
@@ -91,7 +91,7 @@ const EditProfileForm: FC = () => {
 					id='bio'
 					{...register('bio')}
 					placeholder='Bio'
-					value={user.bio}
+					defaultValue={user.bio}
 				/>
 				<p>{errors.bio?.message}</p>
 				<label htmlFor='avatar'>Avatar image (url)</label>
@@ -109,7 +109,7 @@ const EditProfileForm: FC = () => {
 						},
 					})}
 					placeholder='Avatar image'
-					value={user.image}
+					defaultValue={user.image}
 				/>
 				<p>{errors.avatar?.message}</p>
 				<input type='submit' value='Save' />
