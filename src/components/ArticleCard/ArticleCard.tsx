@@ -32,7 +32,9 @@ import { v4 as uuidv4 } from 'uuid'
 const ArticleCard: FC = () => {
 	const { article, loading, error } = useTypeSelector(state => state.article)
 
-	const { fetchArticle, fetchDelArticle } = useActions()
+	const { username } = useTypeSelector(state => state.user.user)
+
+	const { fetchArticle, fetchDelArticle, fetchLikeArticle } = useActions()
 	const { slug } = useParams()
 
 	const navigate = useNavigate()
@@ -68,7 +70,9 @@ const ArticleCard: FC = () => {
 						<div>
 							<h1>{article.title}</h1>
 							<div>
-								<button>
+								<button
+									onClick={() => fetchLikeArticle(slug, article.favorited)}
+								>
 									{!article.favorited ? (
 										<img src='../image/unLike.svg' />
 									) : (
@@ -94,10 +98,14 @@ const ArticleCard: FC = () => {
 								/>
 							</div>
 						</StyleArticleAuthor>
-						<StyleArticleEdit>
-							<button onClick={() => delArticle()}>Delete</button>
-							<Link to='/edit-article'>Edit</Link>
-						</StyleArticleEdit>
+						{username === article.author.username ? (
+							<StyleArticleEdit>
+								<button onClick={() => delArticle()}>Delete</button>
+								<Link to='/edit-article'>Edit</Link>
+							</StyleArticleEdit>
+						) : (
+							''
+						)}
 					</StyleBlock>
 				</StyleArticleHeader>
 				<StyleMarkdown>{article.body}</StyleMarkdown>
