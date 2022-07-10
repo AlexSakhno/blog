@@ -77,7 +77,7 @@ const AddArticle: FC = () => {
 			tagList = tagElem.split(',')
 		}
 
-		if (pathname === '/add-article') initalState = { id: '1', value: '' }
+		if (pathname === '/add-article') setTags(() => [{ id: '1', value: '' }])
 		else {
 			for (let i = 0; i < tagList.length; i++) {
 				setTags(tags => [...tags, { id: String(i), value: tagList[i] }])
