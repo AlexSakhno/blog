@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 // styled components
 import {
@@ -51,12 +51,39 @@ const AddArticle: FC = () => {
 
 	const { article, loading } = useTypeSelector(state => state.article)
 
-	const [tags, setTags] = useState([{ id: '1' }])
+	interface IState {
+		id: string
+		value: string
+	}
+
+	let initalState: IState = {
+		id: '',
+		value: '',
+	}
+
+	const [tags, setTags] = useState([initalState])
 	const [state, setState] = useState('')
 
 	const { fetchAddArticle, fetchUpdateArticle } = useActions()
 
 	const navigate = useNavigate()
+
+	useEffect(() => {
+		let tagElem
+		let tagList: any = []
+
+		if (article.tagList[0]) {
+			tagElem = article.tagList[0]
+			tagList = tagElem.split(',')
+		}
+
+		if (pathname === '/add-article') initalState = { id: '1', value: '' }
+		else {
+			for (let i = 0; i < tagList.length; i++) {
+				setTags(tags => [...tags, { id: String(i), value: tagList[i] }])
+			}
+		}
+	}, [])
 
 	const {
 		register,
@@ -92,30 +119,37 @@ const AddArticle: FC = () => {
 		pathname === '/add-article' ? 'Create new article' : 'Edit article'
 
 	// Работа с тегами
-	const tagForm = (num: string, index: number) => {
+	const tagForm = (id: string, index: number, value: string) => {
+		if (id === '') return
 		return (
-			<div key={num}>
-				<input placeholder='Tag' id='tags' {...register(`tags.${index}`)} />
-				<button type='button' id={num} onClick={() => delTagForm(num)}>
+			<div key={id}>
+				<input
+					placeholder='Tag'
+					id='tags'
+					defaultValue={value}
+					{...register(`tags.${index}`)}
+				/>
+				<button type='button' id={id} onClick={() => delTagForm(id)}>
 					Delete
 				</button>
 			</div>
 		)
 	}
 
-	const addTagForm = () => {
+	const addTagForm = (value: string = '') => {
 		const id = uuidv4()
-		return setTags(() => [...tags, { id: id }])
+		return setTags(() => [...tags, { id: id, value: value }])
 	}
 
 	const delTagForm = (id: string) => {
-		const elem = tags.filter(item => item.id != id)
+		const elem = tags.filter(item => item.id !== id)
 		return setTags(() => [...elem])
 	}
 
 	const tagsList = tags.map((item, index) => {
-		return tagForm(item.id, index)
+		return tagForm(item.id, index, item.value)
 	})
+	// Конец работы с тегами
 
 	return (
 		<StyleArticleBlock>
