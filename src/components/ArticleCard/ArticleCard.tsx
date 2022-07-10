@@ -1,11 +1,5 @@
 import { FC, useEffect } from 'react'
-import {
-	Link,
-	Navigate,
-	useLocation,
-	useNavigate,
-	useParams,
-} from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
 // работа со временем
 import { format } from 'date-fns'
@@ -28,6 +22,7 @@ import { useTypeSelector } from '../../hooks/useTypeSelector'
 
 // uuid
 import { v4 as uuidv4 } from 'uuid'
+import { string } from 'yup'
 
 const ArticleCard: FC = () => {
 	const { article, loading, error } = useTypeSelector(state => state.article)
@@ -35,6 +30,7 @@ const ArticleCard: FC = () => {
 	const { username } = useTypeSelector(state => state.user.user)
 
 	const { fetchArticle, fetchDelArticle, fetchLikeArticle } = useActions()
+
 	const { slug } = useParams()
 
 	const navigate = useNavigate()
@@ -51,8 +47,16 @@ const ArticleCard: FC = () => {
 		return <h2>{error}</h2>
 	}
 
-	const tags = article.tagList.map(tag => {
-		if (tag !== '' && tag !== null) return <span key={uuidv4()}>{tag}</span>
+	let tagElem
+	let tagList: any = []
+
+	if (article.tagList[0]) {
+		tagElem = article.tagList[0]
+		tagList = tagElem.split(',')
+	}
+
+	const tags = tagList.map((tag: string) => {
+		return <span key={uuidv4()}>{tag}</span>
 	})
 
 	const date = format(new Date(article.createdAt), 'MMM d, y')

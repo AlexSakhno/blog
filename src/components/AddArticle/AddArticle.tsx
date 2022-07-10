@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
 
 // styled components
 import {
@@ -42,10 +42,7 @@ const schema = yup
 			.required()
 			.min(1, 'Text length should be at least 60 characters')
 			.max(2000, 'Text cannot exceed more than 2000 characters'),
-		tags: yup
-			.string()
-			.min(1, 'Tag length should be at least 60 characters')
-			.max(15, 'Tag cannot exceed more than 2000 characters'),
+		tags: yup.array(),
 	})
 	.required()
 
@@ -53,6 +50,9 @@ const AddArticle: FC = () => {
 	const { pathname } = useLocation()
 
 	const { article, loading } = useTypeSelector(state => state.article)
+
+	const [tags, setTags] = useState([{ id: '1' }])
+	const [state, setState] = useState('')
 
 	const { fetchAddArticle, fetchUpdateArticle } = useActions()
 
@@ -66,28 +66,7 @@ const AddArticle: FC = () => {
 		resolver: yupResolver(schema),
 	})
 
-	const [state, setState] = useState('')
-
-	const tagBlock = (
-		<>
-			<input
-				placeholder='Tag'
-				id='tag'
-				{...register('tags')}
-				defaultValue={pathname !== '/add-article' ? article.tagList : ''}
-			/>
-			<button type='button'>Delete</button>
-		</>
-	)
-
-	const [stateTagsBlock, setStateTagsBlock] = useState([tagBlock])
-
-	const tagList = stateTagsBlock.map(item => {
-		return <div key={uuidv4()}>{item}</div>
-	})
-
 	const onSubmit = async (data: IFormAddArticleInputs) => {
-		console.log(data)
 		let res
 		if (pathname !== '/add-article') {
 			fetchUpdateArticle(data, article.slug)
@@ -102,8 +81,6 @@ const AddArticle: FC = () => {
 
 	if (state !== '') {
 		const article = state
-
-		setState('')
 		navigate(`/articles/${article}`)
 	}
 
@@ -112,13 +89,33 @@ const AddArticle: FC = () => {
 	}
 
 	let titlePage =
-		pathname === '/add-article' ? 'Create new Article' : 'Edit Article'
+		pathname === '/add-article' ? 'Create new article' : 'Edit article'
 
-	const addTag = () => {
-		return setStateTagsBlock(() => [...stateTagsBlock, tagBlock])
+	// Работа с тегами
+	const tagForm = (num: string, index: number) => {
+		return (
+			<div key={num}>
+				<input placeholder='Tag' id='tags' {...register(`tags.${index}`)} />
+				<button type='button' id={num} onClick={() => delTagForm(num)}>
+					Delete
+				</button>
+			</div>
+		)
 	}
 
-	const delTag = () => {}
+	const addTagForm = () => {
+		const id = uuidv4()
+		return setTags(() => [...tags, { id: id }])
+	}
+
+	const delTagForm = (id: string) => {
+		const elem = tags.filter(item => item.id != id)
+		return setTags(() => [...elem])
+	}
+
+	const tagsList = tags.map((item, index) => {
+		return tagForm(item.id, index)
+	})
 
 	return (
 		<StyleArticleBlock>
@@ -148,11 +145,12 @@ const AddArticle: FC = () => {
 					defaultValue={pathname !== '/add-article' ? article.body : ''}
 				/>
 				<p>{errors.text?.message}</p>
+
 				<label htmlFor='tags'>Tags</label>
 				<StyleTagsBlock>
-					{tagList}
+					{tagsList}
 					<div>
-						<button type='button' className='add' onClick={() => addTag()}>
+						<button type='button' className='add' onClick={() => addTagForm()}>
 							Add tag
 						</button>
 					</div>

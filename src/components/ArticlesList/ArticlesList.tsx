@@ -14,24 +14,15 @@ import { StyleArticleList } from '../../styles/components/article-list'
 
 // components
 import Article from '../Article/Article'
-import { StylePagination } from '../../styles/pagination'
-
-// Service
-import { Service } from '../../utils/service'
-const service = new Service()
 
 // IMPORTS \\
 
 const ArticlesList: FC = () => {
-	const { data, loading, error, currentPage, perPage } = useTypeSelector(
+	const { data, loading, error, currentPage } = useTypeSelector(
 		state => state.articles
 	)
 
-	const pagesCount = Math.ceil(data.articlesCount / perPage)
-	const pages: any[] = []
-	service.createPage(pages, pagesCount, currentPage)
-
-	const { fetchArticles, setCurrentPage } = useActions()
+	const { fetchArticles } = useActions()
 
 	useEffect(() => {
 		fetchArticles(currentPage)
@@ -49,22 +40,7 @@ const ArticlesList: FC = () => {
 		return <Article key={uuidv4()} {...article} />
 	})
 
-	const allPages = pages.map((page, index) => (
-		<span
-			onClick={() => setCurrentPage(page)}
-			className={currentPage === page ? 'active' : ''}
-			key={index}
-		>
-			{page}
-		</span>
-	))
-
-	return (
-		<StyleArticleList>
-			{articlesList}
-			{/* <StylePagination>{allPages}</StylePagination> */}
-		</StyleArticleList>
-	)
+	return <StyleArticleList>{articlesList}</StyleArticleList>
 }
 
 export default ArticlesList

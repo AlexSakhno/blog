@@ -47,8 +47,16 @@ const Article: FC<ArticleItem> = props => {
 		slug,
 	} = props
 
-	const tags = tagList.map(tag => {
-		if (tag !== '' && tag !== null) return <span key={uuidv4()}>{tag}</span>
+	let tagElem
+	let arrTagList: any = []
+
+	if (tagList[0]) {
+		tagElem = tagList[0]
+		arrTagList = tagElem.split(',')
+	}
+
+	const tags = arrTagList.map((tag: string) => {
+		return <span key={uuidv4()}>{tag}</span>
 	})
 
 	const date = format(new Date(createdAt), 'MMM d, y')

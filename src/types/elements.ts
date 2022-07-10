@@ -12,5 +12,5 @@ export interface IFormAddArticleInputs {
 	title: string
 	description: string
 	text: string
-	tags: string
+	tags?: any[]
 }
