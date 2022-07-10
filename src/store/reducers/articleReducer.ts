@@ -4,7 +4,7 @@ import {
 	ArticleState,
 } from '../../types/article'
 
-const initalState: ArticleState = {
+export const initalState: ArticleState = {
 	article: {
 		slug: '',
 		title: '',

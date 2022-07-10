@@ -31,7 +31,7 @@ const ArticlesList: FC = () => {
 	const pages: any[] = []
 	service.createPage(pages, pagesCount, currentPage)
 
-	const { fetchArticles, setCurrentPage, fetchLikeArticle } = useActions()
+	const { fetchArticles, setCurrentPage } = useActions()
 
 	useEffect(() => {
 		fetchArticles(currentPage)
@@ -62,7 +62,7 @@ const ArticlesList: FC = () => {
 	return (
 		<StyleArticleList>
 			{articlesList}
-			<StylePagination>{allPages}</StylePagination>
+			{/* <StylePagination>{allPages}</StylePagination> */}
 		</StyleArticleList>
 	)
 }

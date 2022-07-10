@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 
 // styled components
 import {
@@ -18,7 +18,12 @@ import { IFormAddArticleInputs } from '../../types/elements'
 // redux
 import { useTypeSelector } from '../../hooks/useTypeSelector'
 import { useActions } from '../../hooks/useActions'
-import { useNavigate } from 'react-router-dom'
+
+// router
+import { useLocation, useNavigate } from 'react-router-dom'
+
+// uuid
+import { v4 as uuidv4 } from 'uuid'
 
 const schema = yup
 	.object({
@@ -45,12 +50,13 @@ const schema = yup
 	.required()
 
 const AddArticle: FC = () => {
+	const { pathname } = useLocation()
+
 	const { article, loading } = useTypeSelector(state => state.article)
 
 	const { fetchAddArticle, fetchUpdateArticle } = useActions()
 
 	const navigate = useNavigate()
-	const [state, setState] = useState('')
 
 	const {
 		register,
@@ -60,9 +66,30 @@ const AddArticle: FC = () => {
 		resolver: yupResolver(schema),
 	})
 
+	const [state, setState] = useState('')
+
+	const tagBlock = (
+		<>
+			<input
+				placeholder='Tag'
+				id='tag'
+				{...register('tags')}
+				defaultValue={pathname !== '/add-article' ? article.tagList : ''}
+			/>
+			<button type='button'>Delete</button>
+		</>
+	)
+
+	const [stateTagsBlock, setStateTagsBlock] = useState([tagBlock])
+
+	const tagList = stateTagsBlock.map(item => {
+		return <div key={uuidv4()}>{item}</div>
+	})
+
 	const onSubmit = async (data: IFormAddArticleInputs) => {
+		console.log(data)
 		let res
-		if (article.slug !== '') {
+		if (pathname !== '/add-article') {
 			fetchUpdateArticle(data, article.slug)
 			res = article.slug
 		} else {
@@ -84,16 +111,25 @@ const AddArticle: FC = () => {
 		return <StyleSpiner size='large' tip='Добавляем статью...' />
 	}
 
+	let titlePage =
+		pathname === '/add-article' ? 'Create new Article' : 'Edit Article'
+
+	const addTag = () => {
+		return setStateTagsBlock(() => [...stateTagsBlock, tagBlock])
+	}
+
+	const delTag = () => {}
+
 	return (
 		<StyleArticleBlock>
-			<h1>Create new Article</h1>
+			<h1>{titlePage}</h1>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<label htmlFor='title'>Title</label>
 				<input
 					id='title'
 					{...register('title')}
 					placeholder='Title'
-					defaultValue={article.title}
+					defaultValue={pathname !== '/add-article' ? article.title : ''}
 				/>
 				<p>{errors.title?.message}</p>
 				<label htmlFor='description'>Short description</label>
@@ -101,7 +137,7 @@ const AddArticle: FC = () => {
 					id='description'
 					{...register('description')}
 					placeholder='Short description'
-					defaultValue={article.description}
+					defaultValue={pathname !== '/add-article' ? article.description : ''}
 				/>
 				<p>{errors.description?.message}</p>
 				<label htmlFor='text'>Text</label>
@@ -109,22 +145,14 @@ const AddArticle: FC = () => {
 					id='text'
 					{...register('text')}
 					placeholder='Text'
-					defaultValue={article.body}
+					defaultValue={pathname !== '/add-article' ? article.body : ''}
 				/>
 				<p>{errors.text?.message}</p>
 				<label htmlFor='tags'>Tags</label>
 				<StyleTagsBlock>
+					{tagList}
 					<div>
-						<input
-							placeholder='Tag'
-							id='tag'
-							{...register('tags')}
-							defaultValue={article.tagList}
-						/>
-						<button type='button'>Delete</button>
-					</div>
-					<div>
-						<button type='button' className='add'>
+						<button type='button' className='add' onClick={() => addTag()}>
 							Add tag
 						</button>
 					</div>

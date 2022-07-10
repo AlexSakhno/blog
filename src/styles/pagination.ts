@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const StylePagination = styled.div`
 	width: 100%;
-	margin: 15px auto;
+	margin: auto;
 
 	text-align: center;
 

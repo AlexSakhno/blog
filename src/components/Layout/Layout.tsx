@@ -5,6 +5,7 @@ import Header from '../Header/Header'
 
 // style components
 import { StyleLayout } from '../../styles/components/layout'
+import Footer from '../Footer/Footer'
 
 const Layout = () => {
 	return (
@@ -13,6 +14,7 @@ const Layout = () => {
 			<StyleLayout>
 				<Outlet />
 			</StyleLayout>
+			<Footer />
 		</>
 	)
 }

@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC } from 'react'
 
 //style component
 import { StyleForm } from '../../styles/components/edit-profile'
@@ -24,11 +24,7 @@ const schema = yup
 			.min(3, 'Username length should be at least 3 characters')
 			.max(20, 'Username cannot exceed more than 20 characters'),
 		email: yup.string().email().required(),
-		password: yup
-			.string()
-			.required()
-			.min(6, 'Password length should be at least 6 characters')
-			.max(40, 'Password cannot exceed more than 40 characters'),
+		password: yup.string(),
 		avatar: yup.string().url(),
 		bio: yup
 			.string()
@@ -55,7 +51,7 @@ const EditProfileForm: FC = () => {
 	}
 
 	if (loading) {
-		return <StyleSpiner size='large' tip='Проверка авторизации...' />
+		return <StyleSpiner size='large' tip='Редактируем профиль...' />
 	}
 
 	return (

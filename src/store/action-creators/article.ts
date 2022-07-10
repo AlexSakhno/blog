@@ -5,8 +5,6 @@ import { Dispatch } from 'redux'
 import { ArticlesAction, ArticlesActionTypes } from './../../types/articles'
 
 import { ArticleAction, ArticleActionTypes } from './../../types/article'
-import { string } from 'yup'
-import { Action } from 'history'
 
 axios.defaults.baseURL = 'https://kata.academy:8021/api/'
 axios.defaults.headers.put['Content-Type'] = 'application/json'
